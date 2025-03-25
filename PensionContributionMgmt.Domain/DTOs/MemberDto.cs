@@ -6,7 +6,8 @@ namespace PensionContributionMgmt.Domain.DTOs
 {
   public  class MemberDto
     {
-        public Guid Id { get; set; }
+      
+        public int Id { get; set; }
         [Required(ErrorMessage = "Full Name is required.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Full Name must be between 3 and 100 characters.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Full Name can only contain letters and spaces.")]
@@ -25,8 +26,9 @@ namespace PensionContributionMgmt.Domain.DTOs
 
         [Required(ErrorMessage = "Phone number is required.")]
         [RegularExpression(@"^\+?[1-9][0-9]{7,14}$", ErrorMessage = "Invalid phone number format.")]
-        public string Phone { get; set; }
         public string Password { get; set; }
         public bool IsActive { get; set; }
+        public string Phone { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

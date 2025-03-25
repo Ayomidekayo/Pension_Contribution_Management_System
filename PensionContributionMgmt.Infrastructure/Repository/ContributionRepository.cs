@@ -15,13 +15,13 @@ namespace PensionContributionMgmt.Infrastructure.Repository
             this._dbContext = dbContext;
         }
 
-        public async Task<decimal> GetTotalContributionsAsync(Guid memberId)
+        public async Task<decimal> GetTotalContributionsAsync(int memberId)
         {
 
             return await _dbContext.Contributions.Where(c => c.MemberId == memberId).SumAsync(c => c.Amount);
         }
 
-        public async Task<bool> HasMonthlyContribution(Guid memberId, DateTime date)
+        public async Task<bool> HasMonthlyContribution(int memberId, DateTime date)
         {
          return   await _dbContext.Contributions.AnyAsync(c => c.MemberId == memberId && c.ContributionDate.Year == date.Year && c.ContributionDate.Month == date.Month && !c.IsVoluntary);
         }

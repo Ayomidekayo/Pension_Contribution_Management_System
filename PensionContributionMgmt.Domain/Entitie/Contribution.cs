@@ -1,22 +1,23 @@
 ﻿
 
 using System.ComponentModel.DataAnnotations;
-using PensionContributionMgmt.Domain.DTOs;
-
+using PensionContributionMgmt.Utility;
+using static PensionContributionMgmt.Utility.SD;
 namespace PensionContributionMgmt.Domain.Entitie
 {
   public  class Contribution
     {
         [Key]
-       
-        public Guid Id { get; set; } 
-        public Guid MemberId { get; set; } 
+        public int Id { get; set; }
+        public int MemberId { get; set; }
+        public int EmployerId { get; set; }
         public decimal Amount { get; set; }
-        public DateTime ContributionDate { get; set; }
-        public bool IsMonthly { get; set; }
         public bool IsVoluntary { get; set; }
-        public string ContributionType { get; set; }
+        public ContributionType ContributionType { get; set; } = SD.ContributionType.Monthly; // "Monthly" or "Voluntary"
+        public string Status { get; set; } = "Active"; // "Monthly" or "Voluntary"
+        public DateTime ContributionDate { get; set; }
 
+       
         public static ValidationResult ValidateContributionDate(DateTime date, ValidationContext context)
         {
             DateTime today = DateTime.Today;

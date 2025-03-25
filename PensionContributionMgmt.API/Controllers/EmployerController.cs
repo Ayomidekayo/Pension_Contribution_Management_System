@@ -61,19 +61,19 @@ namespace PensionContributionMgmt.API.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         //[DisableCors]
-        public async Task<ActionResult<APIResponse>> GetEmployerByIdAsync(Guid id)
+        public async Task<ActionResult<APIResponse>> GetEmployerByIdAsync(int id)
         {
             try
             {
-                
-                if (id <= Guid.Empty)
+
+                if (id <= 0)
                 {
                     // _logger.LogWarning("Bad Request");
                     return BadRequest();
                 }
 
-                var employer = await _unitOfwork.Employer.GetmployerwithContributionAndMemberAsync(id);
-               
+                var employer = await _unitOfwork.Employer.GetAsync(u => u.Id == id);
+
                 //NotFound - 404 - NotFound - Client error
                 if (employer == null)
                 {
@@ -93,7 +93,7 @@ namespace PensionContributionMgmt.API.Controllers
                 _apiResponse.StatusCode = HttpStatusCode.InternalServerError;
                 _apiResponse.Status = false;
                 return _apiResponse;
-            }
+           }
            
         }
         [HttpPost]
@@ -116,15 +116,13 @@ namespace PensionContributionMgmt.API.Controllers
 
                 var studentAfterCreation = await _unitOfwork.Employer.AddAsync(employer);
 
-                
-
                 _apiResponse.Data = AddEmployerdto;
                 _apiResponse.Status = true;
                 _apiResponse.StatusCode = HttpStatusCode.OK;
                 //Status - 201
                 //https://localhost:7185/api/Student/3
                 //New student details
-                return CreatedAtRoute("GetEmployerById", new { id = employer.Id }, _apiResponse);
+                return Ok(_apiResponse);
             }
             catch (Exception ex)
             {

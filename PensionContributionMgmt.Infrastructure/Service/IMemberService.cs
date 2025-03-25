@@ -9,10 +9,10 @@ namespace PensionContributionMgmt.Infrastructure.Service
     {
         Task<bool> CreateUserAsync(MemberRegistrationDto dto);
         Task<List<MemberReadDto>> GetUsersAsync();
-        Task<MemberReadDto> GetUserByIdAsync(Guid id);
+        Task<MemberReadDto> GetUserByIdAsync(int id);
         Task<MemberReadDto> GetUserByUsernameAsync(string username);
         Task<bool> UpdateUserAsync(MemberDto dto);
-        Task<bool> DeleteUser(Guid userId);
+        Task<bool> DeleteUser(int userId);
         (string PasswordHash, string Salt) CreatePasswordHashWithSalt(string password);
     }
 }

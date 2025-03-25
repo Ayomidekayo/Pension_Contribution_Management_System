@@ -56,7 +56,7 @@ namespace PensionContributionMgmt.Infrastructure.Service
             return _mapper.Map<List<MemberReadDto>>(users);
         }
 
-        public async Task<MemberReadDto> GetUserByIdAsync(Guid id)
+        public async Task<MemberReadDto> GetUserByIdAsync(int id)
         {
             var user = await _unitOfwork.Members.GetAsync(u => !u.IsDeleted && u.Id == id);
 
@@ -97,9 +97,9 @@ namespace PensionContributionMgmt.Infrastructure.Service
 
             return true;
         }
-        public async Task<bool> DeleteUser(Guid userId)
+        public async Task<bool> DeleteUser(int userId)
         {
-            if (userId == Guid.Empty)
+            if (userId == 0)
                 throw new ArgumentException(nameof(userId));
 
             var existingUser = await _unitOfwork.Members.GetAsync(u => !u.IsDeleted && u.Id == userId, true);

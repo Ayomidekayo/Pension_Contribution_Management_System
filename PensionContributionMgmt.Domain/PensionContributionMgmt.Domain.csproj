@@ -20,4 +20,8 @@
     <Folder Include="DTOs\Members\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PensionContributionMgmt.Utility\PensionContributionMgmt.Utility.csproj" />
+  </ItemGroup>
+
 </Project>

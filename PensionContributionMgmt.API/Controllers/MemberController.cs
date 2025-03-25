@@ -90,12 +90,12 @@ namespace PensionContributionMgmt.API.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         //[DisableCors]
-        public async Task<ActionResult<APIResponse>> GetMemberrByIdAsync(Guid id)
+        public async Task<ActionResult<APIResponse>> GetMemberrByIdAsync(int id)
         {
             try
             {
                 //BadRequest - 400 - Badrequest - Client error
-                if (id == Guid.Empty)
+                if (id == 0)
                 {
                     //_logger.LogWarning("Bad Request");
                     return BadRequest();
@@ -198,7 +198,7 @@ namespace PensionContributionMgmt.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<ActionResult<APIResponse>> DeleteMemberAsync(Guid id)
+        public async Task<ActionResult<APIResponse>> DeleteMemberAsync(int id)
         {
             try
             {

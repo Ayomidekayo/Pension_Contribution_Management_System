@@ -7,6 +7,7 @@ using PensionContributionMgmt.Domain.DTOs;
 using PensionContributionMgmt.Domain.DTOs.Contribution;
 using PensionContributionMgmt.Domain.DTOs.Employeer;
 using PensionContributionMgmt.Domain.Entitie;
+using PensionContributionMgmt.Utility;
 
 namespace PensionContributionMgmt.API.Controllers
 {
@@ -46,8 +47,8 @@ namespace PensionContributionMgmt.API.Controllers
                 }               
                 Contribution contribution = _mapper.Map<Contribution>(contributionRegDto);
                 contribution.IsVoluntary = false;
-                contribution.IsMonthly = true;
-                contribution.ContributionType = "Monthly";
+                contribution.Status = "Active";
+                contribution.ContributionType = SD.ContributionType.Monthly;
 
                 await _unitOfwork.Contribution.AddAsync(contribution);
                
@@ -85,7 +86,8 @@ namespace PensionContributionMgmt.API.Controllers
                 if (contributionRegDto == null)
                     return BadRequest();
                 Contribution contribution = _mapper.Map<Contribution>(contributionRegDto);
-                contribution.ContributionType = "Yearly";
+                contribution.ContributionType = SD.ContributionType.Yearly;
+                contribution.Status = "Active";
                 contribution.IsVoluntary = true;
                 await _unitOfwork.Contribution.AddAsync(contribution);
                
@@ -108,16 +110,17 @@ namespace PensionContributionMgmt.API.Controllers
 
         [HttpGet]
        [Route("{memberId}", Name = "GetMemberContributionsByMemberId")]
-        public async Task<ActionResult<APIResponse>> GetMemberContributionsByMemberId(Guid memberId)
+        public async Task<ActionResult<APIResponse>> GetMemberContributionsByMemberId(int memberId)
         {
             try
             {
-                if (memberId <= Guid.Empty)
+                if (memberId <=0)
                 {
                     // _logger.LogWarning("Bad Request");
                     return BadRequest();
                 }
                 var contributions = await _unitOfwork.Contribution.GetAsync(u => u.MemberId == memberId);
+                contributions.ContributionType = SD.ContributionType.Monthly;
                 if (contributions == null)
                 {
                     // _logger.LogError("Student not found with given Id");
@@ -140,7 +143,7 @@ namespace PensionContributionMgmt.API.Controllers
 
        
         [HttpGet("statements/{memberId}")]
-        public async Task<ActionResult<APIResponse>> GetContributionStatement(Guid memberId)
+        public async Task<ActionResult<APIResponse>> GetContributionStatement(int memberId)
         {
             try
             {

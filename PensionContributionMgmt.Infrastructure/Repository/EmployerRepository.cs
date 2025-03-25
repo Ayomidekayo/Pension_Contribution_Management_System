@@ -14,14 +14,6 @@ namespace PensionContributionMgmt.Infrastructure.Repository
             this._dbContext = dbContext;
         }
 
-        public async Task<Employer> GetmployerwithContributionAndMemberAsync(Guid id)
-        {
-           var employer=  await _dbContext.Employers.Include(x=>x.Contribution).Include(x=>x.Member).FirstOrDefaultAsync(x => x.Id == id);
-
-
-            if (employer == null)
-                return null;
-            return employer;
-        }
+       
     }
 }
